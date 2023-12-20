@@ -29,8 +29,8 @@ CORS(app)
 def chat():
     user_input = request.json['message']
     ChatMemory.save_message('user', user_input)
-    load_dotenv()
-    client = OpenAI(api_key = os.environ['OPENAI_API_KEY'])
+    # load_dotenv()
+    # client = OpenAI(api_key = os.environ['OPENAI_API_KEY'])
     prompt = ChatMemory.get_memory()
     completion = client.chat.completions.create(
         model="gpt-4",
@@ -38,9 +38,11 @@ def chat():
         temperature=0.7
     )
     response = completion.choices[0].message.content
+    print(user_input)
+    print(response)
     ChatMemory.save_message('assistant', response)
 
     return jsonify({'reply':response})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=3000)

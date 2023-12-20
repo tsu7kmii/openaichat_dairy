@@ -9,14 +9,22 @@ function App() {
     if (input === '') {
       return;
     }
-    const newMessage = {
+    const userMessage = {
       role: 'user',
-      content: input
+      content: input,
     };
-    setMessages([...messages, newMessage]);
+    setMessages([...messages, userMessage]);
+
+    const aiReply = await fetchResponse(input);
+    if (aiReply) {
+      const aiMessage = {
+        role: 'assistant',
+        content: aiReply,
+      };
+      setMessages(messages => [...messages, aiMessage]);
+    }
+
     setInput('');
-    // ここでメッセージを送信し、応答を処理します
-    // この部分は後で実装します
   };
 
   return (
@@ -59,29 +67,6 @@ async function fetchResponse(userInput) {
   }
   return '';
 }
-
-const sendMessage = async () => {
-  if (input === '') {
-    return;
-  }
-  const userMessage = {
-    role: 'user',
-    content: input,
-  };
-  setMessages([...messages, userMessage]);
-
-  const aiReply = await fetchResponse(input);
-  if (aiReply) {
-    const aiMessage = {
-      role: 'assistant',
-      content: aiReply,
-    };
-    setMessages(messages => [...messages, aiMessage]);
-  }
-
-  setInput('');
-};
-
 
 export default App;
 
