@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
+from flask_cors import CORS
 
 class ChatMemory:
     memory = []
@@ -22,6 +23,7 @@ load_dotenv()
 client = OpenAI(api_key = os.environ['OPENAI_API_KEY'])
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/api/chat', methods=['POST'])
 def chat():

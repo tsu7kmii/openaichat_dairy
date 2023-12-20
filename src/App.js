@@ -41,5 +41,47 @@ function App() {
   );
 }
 
+async function fetchResponse(userInput) {
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message: userInput }),
+    });
+    const data = await response.json();
+    if (data && data.reply) {
+      return data.reply;
+    }
+  } catch (error) {
+    console.error('Error fetching response:', error);
+  }
+  return '';
+}
+
+const sendMessage = async () => {
+  if (input === '') {
+    return;
+  }
+  const userMessage = {
+    role: 'user',
+    content: input,
+  };
+  setMessages([...messages, userMessage]);
+
+  const aiReply = await fetchResponse(input);
+  if (aiReply) {
+    const aiMessage = {
+      role: 'assistant',
+      content: aiReply,
+    };
+    setMessages(messages => [...messages, aiMessage]);
+  }
+
+  setInput('');
+};
+
+
 export default App;
 
