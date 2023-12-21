@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify ,session
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
@@ -23,6 +23,7 @@ load_dotenv()
 client = OpenAI(api_key = os.environ['OPENAI_API_KEY'])
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'
 CORS(app)
 
 @app.route('/api/chat', methods=['POST'])

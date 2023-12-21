@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
 import './App.css';
+import ChatWindow from './components/ChatWindow';
+import InputArea from './components/InputArea';
+import StartPopup from './components/StartPopup';
+import { fetchResponse } from './components/fetchResponse';
 
 function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [showPopup, setShowPopup] = useState(true);
+
+  const handleStart = async () => {
+    setShowPopup(false);
+    setInput('start');
+    await sendMessage();
+    // Flaskにスタート信号を送るロジックをここに追加
+  };
 
   const sendMessage = async () => {
     if (input === '') {
@@ -29,44 +41,14 @@ function App() {
 
   return (
     <div className="App">
+      {showPopup && <StartPopup handleStart={handleStart} />}
       <header className="App-header">
         <h1>Chat with AI</h1>
       </header>
-      <div className="chat-window">
-        {messages.map((msg, index) => (
-          <p key={index}>{msg.content}</p>
-        ))}
-      </div>
-      <div className="input-area">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <button onClick={sendMessage}>Send</button>
-      </div>
+      <ChatWindow messages={messages} />
+      <InputArea input={input} setInput={setInput} sendMessage={sendMessage} />
     </div>
   );
 }
 
-async function fetchResponse(userInput) {
-  try {
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message: userInput }),
-    });
-    const data = await response.json();
-    if (data && data.reply) {
-      return data.reply;
-    }
-  } catch (error) {
-    console.error('Error fetching response:', error);
-  }
-  return '';
-}
-
 export default App;
-
