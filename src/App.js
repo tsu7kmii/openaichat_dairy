@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import ChatWindow from './components/ChatWindow';
 import InputArea from './components/InputArea';
-import StartPopup from './components/StartPopup';
+// import StartPopup from './components/StartPopup';
 import { fetchResponse } from './components/fetchResponse';
 
 function App() {
@@ -37,14 +37,22 @@ function App() {
     }
 
     setInput('');
+    setShowPopup(false);
   };
 
   return (
     <div className="App">
-      {showPopup && <StartPopup handleStart={handleStart} />}
       <header className="App-header">
         <h1>Chat with AI</h1>
       </header>
+
+      {showPopup && ( // ポップアップの表示
+        <div className="popup">
+          <p>Welcome to AI Chat!</p>
+          <button onClick={handleStart}>スタート</button>
+        </div>
+      )}
+      
       <ChatWindow messages={messages} />
       <InputArea input={input} setInput={setInput} sendMessage={sendMessage} />
     </div>
