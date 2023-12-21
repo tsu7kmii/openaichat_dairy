@@ -7,14 +7,6 @@ import { fetchResponse } from './components/fetchResponse';
 function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const [showPopup, setShowPopup] = useState(true);
-
-  const handleStart = async () => {
-    setShowPopup(false);
-    setInput('start');
-    await sendMessage();
-    // Flaskにスタート信号を送るロジックをここに追加
-  };
 
   const sendMessage = async () => {
     if (input === '') {
@@ -36,22 +28,13 @@ function App() {
     }
 
     setInput('');
-    setShowPopup(false);
   };
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>Chat with AI</h1>
-      </header>
-
-      {showPopup && ( // ポップアップの表示
-        <div className="popup">
-          <p>Welcome to AI Chat!</p>
-          <button onClick={handleStart}>スタート</button>
-        </div>
-      )}
-      
+      </header>   
       <ChatWindow messages={messages} />
       <InputArea input={input} setInput={setInput} sendMessage={sendMessage} />
     </div>
