@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './App.css';
 import ChatWindow from './components/ChatWindow';
 import InputArea from './components/InputArea';
-// import StartPopup from './components/StartPopup';
 import { fetchResponse } from './components/fetchResponse';
 
 function App() {
