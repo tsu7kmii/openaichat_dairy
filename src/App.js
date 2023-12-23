@@ -35,14 +35,7 @@ function App() {
   const startChat = async () => {
     setShowModal(false); // モーダルウィンドウを閉じる
 
-    // 多分したのconst消したらスタートは保存しないけど、送ることは出来ると思う。
-    const startMessage = {
-      role: 'user',
-      content: 'スタート',
-    };
-    setMessages([...messages, startMessage]);
-
-    const aiReply = await fetchResponse('スタート');
+    const aiReply = await fetchResponse('スタートスタート');
     if (aiReply) {
       const aiMessage = {
         role: 'assistant',
