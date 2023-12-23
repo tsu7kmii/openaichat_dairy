@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import './InputArea.css';
+import { IoIosSend } from "react-icons/io";
 
 const InputArea = ({ input, setInput, sendMessage }) => {
   const textAreaRef = useRef(null);
 
   const adjustHeight = () => {
     const textArea = textAreaRef.current;
-    textArea.style.height = 'auto'; // 高さをリセット
-    textArea.style.height = `${Math.min(textArea.scrollHeight, 120)}px`; // スクロール高さか最大高さの小さい方に設定
+    textArea.style.height = 'auto'; 
+    textArea.style.height = `${Math.min(textArea.scrollHeight, 120)}px`; 
   };
 
   const handleKeyPress = (e) => {
@@ -18,8 +19,8 @@ const InputArea = ({ input, setInput, sendMessage }) => {
   };
 
   useEffect(() => {
-    adjustHeight(); // コンポーネントが更新されるたびに高さを調整
-  }, [input]); // inputが変更されるたびに実行
+    adjustHeight(); 
+  }, [input]); 
 
   return (
     <div className="input-area-container">
@@ -35,7 +36,9 @@ const InputArea = ({ input, setInput, sendMessage }) => {
         rows="1"
         placeholder="Type your message here..."
       />
-      <button className="send-button" onClick={sendMessage}>Send</button>
+      <button className="send-button" onClick={sendMessage}>
+        <IoIosSend />
+      </button>
     </div>
   );
 };
