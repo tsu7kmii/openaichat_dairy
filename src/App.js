@@ -18,7 +18,7 @@ function App() {
     }
     setIsLoading(true);
     const userMessage = {
-      role: 'user',
+      role: 'User',
       content: input,
     };
     setMessages([...messages, userMessage]);
@@ -26,7 +26,7 @@ function App() {
     const aiReply = await fetchResponse(input);
     if (aiReply) {
       const aiMessage = {
-        role: 'assistant',
+        role: 'Assistant',
         content: aiReply,
       };
       setMessages(messages => [...messages, aiMessage]);
@@ -43,7 +43,7 @@ function App() {
     const aiReply = await fetchResponse('22nknubr4tsdf9');
     if (aiReply) {
       const aiMessage = {
-        role: 'assistant',
+        role: 'Assistant',
         content: aiReply,
       };
       setMessages(messages => [...messages, aiMessage]);
@@ -54,7 +54,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Chat with AI</h1>
+        <h1>Support your life</h1>
       </header> 
       <Modal showModal={showModal} startChat={startChat} /> 
       <ChatWindow messages={messages} />

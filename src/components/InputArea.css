@@ -1,25 +1,35 @@
 .input-area-container {
-    display: flex; /* フレックスコンテナにする */
-    align-items: center; /* アイテムを中央に配置 */
-    gap: 10px; /* アイテム間の隙間 */
-    padding: 10px; /* コンテナのパディング */
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    padding: 10px; 
   }
   
   .input-area {
-    flex: 8; /* テキストエリアを8の割合で拡大 */
+    flex: 9.5; 
     resize: none;
     overflow-y: auto;
     height: auto;
-    min-height: 30px; /* 最小高さを2倍に調整 */
-    max-height: 120px; /* 最大高さを2倍に調整 */
+    min-height: 30px;
+    max-height: 120px; 
     width: 100%;
     box-sizing: border-box;
-    font-size: 150%; /* 文字サイズを2倍にする */
+    font-size: 150%; 
   }
   
   .send-button {
-    flex: 2; /* 送信ボタンを2の割合で拡大 */
-    height: 40px; /* ボタンの高さ */
-    /* ボタンの追加スタイル */
+    flex: 0.5; 
+    height: 40px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border: none;
+    background-color: transparent; 
+    cursor: pointer; 
+    padding: 0; 
   }
   
+  .send-button svg {
+    width: 24px;
+    height: 24px; 
+  }

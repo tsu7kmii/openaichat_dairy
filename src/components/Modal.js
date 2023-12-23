@@ -1,5 +1,6 @@
 import React from 'react';
-import './Modal.css'; // スタイルを適用するためのCSSファイル
+import './Modal.css';
+import { FaArrowCircleRight } from "react-icons/fa";
 
 const Modal = ({ showModal,startChat }) => {
   if (!showModal) {
@@ -10,7 +11,10 @@ const Modal = ({ showModal,startChat }) => {
     <div className="modal">
       <div className="modal-content">
         <h2>これから始めます。いいですか？</h2>
-        <button onClick={startChat}>OK Start</button>
+        <p>もし、➡を押してもAssistantから返答がない場合、ご不便をおかけしますがサイトのリロードをお願い致します。</p>
+        <button className="start-chat"onClick={startChat}>
+          <FaArrowCircleRight size={30} />
+        </button>
       </div>
     </div>
   );
