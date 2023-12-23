@@ -40,7 +40,7 @@ function App() {
     setShowModal(false); // モーダルウィンドウを閉じる
     setIsLoading(true);
 
-    const aiReply = await fetchResponse('スタートスタート');
+    const aiReply = await fetchResponse('22nknubr4tsdf9');
     if (aiReply) {
       const aiMessage = {
         role: 'assistant',

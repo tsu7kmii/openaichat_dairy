@@ -40,9 +40,11 @@ def chat():
     chat_memory.append({"role": "user", "content": user_input})
 
     # 特定の入力に対する処理
-    if user_input == "スタートスタート":
-        user_prompt = "あなたは今から日記の作成を補助します" #プロンプトを将来的にはここに入れる
+    if user_input == "22nknubr4tsdf9":
+        chat_memory.clear()
+        user_prompt = "あなたは今からプログラム作成の補助員として活躍してもらいます。「スタート」と言われたら始まります。変なことを言ってきても、とりあえず「がんばったね」など応援肯定してあげてください" #プロンプトを将来的にはここに入れる
         chat_memory.append({"role": "system", "content": user_prompt})
+        chat_memory.append({"role": "user", "content": "スタート"})
         prompt = [{"role": message["role"], "content": message["content"]} for message in chat_memory]
     else:
         prompt = [{"role": message["role"], "content": message["content"]} for message in chat_memory]
