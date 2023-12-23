@@ -1,0 +1,25 @@
+.input-area-container {
+    display: flex; /* フレックスコンテナにする */
+    align-items: center; /* アイテムを中央に配置 */
+    gap: 10px; /* アイテム間の隙間 */
+    padding: 10px; /* コンテナのパディング */
+  }
+  
+  .input-area {
+    flex: 8; /* テキストエリアを8の割合で拡大 */
+    resize: none;
+    overflow-y: auto;
+    height: auto;
+    min-height: 30px; /* 最小高さを2倍に調整 */
+    max-height: 120px; /* 最大高さを2倍に調整 */
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 150%; /* 文字サイズを2倍にする */
+  }
+  
+  .send-button {
+    flex: 2; /* 送信ボタンを2の割合で拡大 */
+    height: 40px; /* ボタンの高さ */
+    /* ボタンの追加スタイル */
+  }
+  
