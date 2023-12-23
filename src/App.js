@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import './App.css';
 import ChatWindow from './components/ChatWindow';
 import InputArea from './components/InputArea';
+import Modal from './components/Modal';
 import { fetchResponse } from './components/fetchResponse';
 
 function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [showModal, setShowModal] = useState(true);
 
   const sendMessage = async () => {
     if (input === '') {
@@ -30,11 +32,25 @@ function App() {
     setInput('');
   };
 
+  const startChat = async () => {
+    setShowModal(false); // モーダルウィンドウを閉じる
+
+    const aiReply = await fetchResponse('スタートスタート');
+    if (aiReply) {
+      const aiMessage = {
+        role: 'assistant',
+        content: aiReply,
+      };
+      setMessages(messages => [...messages, aiMessage]);
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>Chat with AI</h1>
-      </header>   
+      </header> 
+      <Modal showModal={showModal} startChat={startChat} /> 
       <ChatWindow messages={messages} />
       <InputArea input={input} setInput={setInput} sendMessage={sendMessage} />
     </div>
