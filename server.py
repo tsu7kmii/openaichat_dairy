@@ -1,37 +1,53 @@
-from flask import Flask, request, jsonify ,session
+from flask import Flask, request, jsonify, session
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
 from flask_cors import CORS
 
-class ChatMemory:
-    memory = []
-
-    @classmethod
-    def save_message(cls, role, new_message):
-        add_message = {
-            "role": role,
-            "content": new_message
-        }
-        cls.memory.append(add_message)
-
-    @classmethod
-    def get_memory(cls):
-        return cls.memory
-
 load_dotenv()
-client = OpenAI(api_key = os.environ['OPENAI_API_KEY'])
+client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'
+app.secret_key = os.environ.get('SECRET_KEY')
 CORS(app)
+
+# ユーザー固有の会話履歴を管理するための辞書
+if 'chat_memory' not in app.config:
+    app.config['chat_memory'] = {}
+
+def get_user_chat_memory(session_id):
+    """ユーザー固有の会話履歴を取得または初期化する"""
+    if session_id not in app.config['chat_memory']:
+        app.config['chat_memory'][session_id] = []
+    return app.config['chat_memory'][session_id]
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
     user_input = request.json['message']
-    ChatMemory.save_message('user', user_input)
-    # client = OpenAI(api_key = os.environ['OPENAI_API_KEY'])
-    prompt = ChatMemory.get_memory()
+    session_id = request.cookies.get('session')  # セッションIDを取得
+
+    # クッキーからセッションIDを取得し、なければ新規に作成
+    if not session_id:
+        session_id = os.urandom(24).hex()
+        response = jsonify({'reply': ''})
+        response.set_cookie('session', session_id)
+        return response
+
+    # ユーザーの会話履歴を取得
+    chat_memory = get_user_chat_memory(session_id)
+
+    # ユーザーの入力を会話履歴に追加
+    chat_memory.append({"role": "user", "content": user_input})
+
+    # 特定の入力に対する処理
+    if user_input == "スタートスタート":
+        user_prompt = "あなたは今から日記の作成を補助します" #プロンプトを将来的にはここに入れる
+        chat_memory.append({"role": "system", "content": user_prompt})
+        prompt = [{"role": message["role"], "content": message["content"]} for message in chat_memory]
+    else:
+        prompt = [{"role": message["role"], "content": message["content"]} for message in chat_memory]
+
+    # OpenAI APIへのリクエスト
     completion = client.chat.completions.create(
         model="gpt-4",
         messages=prompt,
@@ -39,9 +55,14 @@ def chat():
     )
     response = completion.choices[0].message.content
 
-    ChatMemory.save_message('assistant', response)
+    # レスポンスを会話履歴に追加
+    chat_memory.append({"role": "assistant", "content": response})
 
-    return jsonify({'reply':response})
+    # 会話履歴をセッションIDに基づいて保存
+    app.config['chat_memory'][session_id] = chat_memory
+
+    # 結果を返す
+    return jsonify({'reply': response})
 
 if __name__ == '__main__':
     app.run(debug=True)
