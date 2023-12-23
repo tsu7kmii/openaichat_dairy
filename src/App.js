@@ -4,16 +4,19 @@ import ChatWindow from './components/ChatWindow';
 import InputArea from './components/InputArea';
 import Modal from './components/Modal';
 import { fetchResponse } from './components/fetchResponse';
+import { Puff }  from 'react-loader-spinner'; 
 
 function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [showModal, setShowModal] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const sendMessage = async () => {
     if (input === '') {
       return;
     }
+    setIsLoading(true);
     const userMessage = {
       role: 'user',
       content: input,
@@ -30,10 +33,12 @@ function App() {
     }
 
     setInput('');
+    setIsLoading(false);
   };
 
   const startChat = async () => {
     setShowModal(false); // モーダルウィンドウを閉じる
+    setIsLoading(true);
 
     const aiReply = await fetchResponse('スタートスタート');
     if (aiReply) {
@@ -43,6 +48,7 @@ function App() {
       };
       setMessages(messages => [...messages, aiMessage]);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -53,6 +59,11 @@ function App() {
       <Modal showModal={showModal} startChat={startChat} /> 
       <ChatWindow messages={messages} />
       <InputArea input={input} setInput={setInput} sendMessage={sendMessage} />
+      {isLoading && (
+        <div className={`loader-backdrop ${isLoading ? '' : 'hidden'}`}>
+        <Puff type="Puff" color="#00BFFF" height={100} width={100} />
+        </div>
+      )}
     </div>
   );
 }
