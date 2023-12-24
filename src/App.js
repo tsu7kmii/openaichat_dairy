@@ -13,7 +13,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   const sendMessage = async () => {
-    if (input === '') {
+    if (input === ''|| isLoading) {
       return;
     }
     setIsLoading(true);
@@ -54,11 +54,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Support your life</h1>
+        <h3>Support your life</h3>
       </header> 
       <Modal showModal={showModal} startChat={startChat} /> 
       <ChatWindow messages={messages} />
-      <InputArea input={input} setInput={setInput} sendMessage={sendMessage} />
+      <InputArea input={input} setInput={setInput} sendMessage={sendMessage} isLoading={isLoading}disabled={showModal}/>
       {isLoading && (
         <div className={`loader-backdrop ${isLoading ? '' : 'hidden'}`}>
         <Puff type="Puff" color="#00BFFF" height={100} width={100} />
