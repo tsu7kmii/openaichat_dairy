@@ -23,7 +23,7 @@ const ChatWindow = ({ messages }) => {
           <strong> {msg.role}</strong>
           <br />
           {msg.content.split('\n').map((line, lineIndex) => (
-            <p key={lineIndex}>{line}</p>
+            <p key={lineIndex}style={{ marginLeft: '20px' }}>{line}</p>
           ))}
           <br />
         </div>
